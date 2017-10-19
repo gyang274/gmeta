@@ -1,4 +1,4 @@
-# R package: generalized meta-analysis (gmeta), file gmeta.r 
+# R package: generalized meta-analysis (gmeta), file gmeta.r
 # R interface to meta-analysis based on combine confidence distributions (CDs)
 
 # *****************************************************************************
@@ -22,7 +22,7 @@ type='l', xlab='x', ylab='density', xlim=NULL, ylim=NULL, ...) {
     # match plot.option
     mfplot <- match.call()
     plot.option = match.arg(plot.option)
-    
+
     # plot.individual.studies
     # if ( is.null(studies) ) {
     # # take all studies
@@ -30,7 +30,7 @@ type='l', xlab='x', ylab='density', xlim=NULL, ylim=NULL, ...) {
     # nn1     <- ifelse(is.list(gmi), length(gmi), dim(gmi)[1])
     # studies <- c(1:nn1)
     # }
-    
+
     # plot via plot.option
     if ( plot.option == 'confidence-density' ) {
         gmeta.plot.cdd(x, studies, type, xlab, ylab, xlim, ylim, ...)
@@ -58,7 +58,7 @@ type='l', xlab='x', ylab='confidence density', xlim=NULL, ylim=NULL, ...) {
     # match plot.option
     mfplot <- match.call()
     plot.option = match.arg(plot.option)
-    
+
     # plot.individual.studies
     # if ( is.null(studies) ) {
     # # take all studies
@@ -160,13 +160,13 @@ gmeta.plot.cvs <- function(gmo, studies, type, xlab, ylab, xlim, ylim, ...) {
     enames <- c(gmo$study.names[studies], 'combined.cv')
     # x.grids
     x.grids <- gmo$x.grids
-    
+
     # construct individual and combined CVs
     combined.cv    <- 1 - 2 * abs( gmo$combined.cd - 0.5 )
     individual.cvs <- 1 - 2 * abs( gmo$individual.cds - 0.5 )
     # set cvs
     ecvs <- rbind(individual.cvs[studies,], combined.cv)
-    
+
     # individual and combined medians
     mdn <- c(gmo$individual.medians[studies], gmo$combined.median)
     # individual and combined confidence intervals
@@ -838,14 +838,14 @@ midp.oddsratio <- function(x, N, M, t, or){ # x and t can be vectors
 }
 #####
 .Estimates <- function(data_matrix) {
-    
+
     K = dim(data_matrix)[1]
-    
+
     x = data_matrix[,1]
     y = data_matrix[,2]
     n = data_matrix[,3]
     m = data_matrix[,4]
-    
+
     if( sum(x)+sum(y) == 0 ) {   # in the case of all zeros in two arms
         p0.hat  = NA
         p1.hat  = NA
@@ -966,11 +966,11 @@ gmeta <- function(gmi, gmi.type = c('pivot', 'cd', 'pvalue', '2x2'),
 				'random-robust1', 'random-robust2', 'random-robust2(sqrt12)',
 				'fisher', 'normal', 'stouffer', 'min', 'tippett', 'max', 'sum',
 				'MH', 'Mantel-Haenszel', 'Peto', 'exact1', 'exact2'),
-		linkfunc = c('inverse-normal-cdf', 'inverse-laplace-cdf'), 
-		weight = NULL, study.names = NULL, gmo.xgrid = NULL, ci.level = 0.95, 
-		tau2 = NULL, mc.iteration = 10000, eta = 'Inf', verbose = FALSE, 
+		linkfunc = c('inverse-normal-cdf', 'inverse-laplace-cdf'),
+		weight = NULL, study.names = NULL, gmo.xgrid = NULL, ci.level = 0.95,
+		tau2 = NULL, mc.iteration = 10000, eta = 'Inf', verbose = FALSE,
 		report.error = FALSE)
-{ 
+{
 	UseMethod('gmeta')
 }
 
@@ -1003,13 +1003,13 @@ gmeta.default <- function(gmi, # generalized meta-analysis input: vector of p-va
 					 'Peto', # method of combination, if cobmine 2x2 tables, see Peto's method
 					 'exact1',  # method of combination, if cobmine 2x2 tables, see liu2012exact
 					 'exact2'), # method of combination, if cobmine 2x2 tables, see tian2009exact
-		linkfunc = c('inverse-normal-cdf',   # 'link' function, F0^{-1}(\cdot), see xie2012section2 
+		linkfunc = c('inverse-normal-cdf',   # 'link' function, F0^{-1}(\cdot), see xie2012section2
 		             'inverse-laplace-cdf'), # 'link' function, F0^{-1}(\cdot), see xie2012section2
 		weight   = NULL, # study-specific weight, in default inverse-of-adjusted-variance
 		study.names = NULL, # names of studies, in default, study1, study2, etc.
 		# parameters specifying output properties
 		#gmo.limit= NULL, # range of generalized meta-analysis output, in default, c(-1,1) with gmo.n.pts=2001, seq(from=-1,to=1,by=0.001)
-		#gmo.n.pts= 2001, # number of points in the range of generalized meta-analysis output, suppressed if gmo.limit is given as a vector 
+		#gmo.n.pts= 2001, # number of points in the range of generalized meta-analysis output, suppressed if gmo.limit is given as a vector
 		gmo.xgrid= NULL,  # gridding positions where generalized meta-analysis output (fixed- or random-effects model-based) evaluating the combined and individual CDs. gmo.xgrids suppress gmo.limit and gmo.n.pts, in default, gmo.xgrid = seq(-1,1,by=0.001).
 		ci.level = 0.95,  # confidence level
 		# parameters specifying model-based meta-analysis (random-effects model) heterogeneity
@@ -1022,7 +1022,7 @@ gmeta.default <- function(gmi, # generalized meta-analysis input: vector of p-va
 		verbose  = FALSE, # whether detailed inforamtion reported during meta-analysis
 		# parameters specifying whether report error of coverage probability when use liu2012exact/tian2009exact method to combine 2x2 tables
 		report.error = FALSE) # minor error message and exact error of coverage probability of the computed confidence interval for 2x2-"exact1"&"exact2" method
-{ 
+{
 	#check
 	mf          <- match.call()
 	gmi.type    <- match.arg(gmi.type)
@@ -1168,7 +1168,7 @@ gmeta.check.weight <- function(gmi, gmi.type, linkfunc, weight, verbose) {
 			}
 		}
 	} # note: weight=NULL is kept.
-	else if ( gmi.type == 'pvalue' ) { 
+	else if ( gmi.type == 'pvalue' ) {
 		if ( is.vector(gmi) ) {
 			if ( is.null(weight) ) {
 				# verbose
@@ -1211,7 +1211,7 @@ gmeta.check.gmo.xgrid <- function(gmi, gmi.type, gmo.xgrid) {
 	else if (gmi.type == 'pivot') {
 		gmo.xgrid <- gmeta.check.gmo.xgrid.pivot(gmi, gmo.xgrid)
 	}
-	else if (gmi.type == 'pvalue') { 
+	else if (gmi.type == 'pvalue') {
 		gmo.xgrid <- gmeta.check.gmo.xgrid.pvalue(gmi, gmo.xgrid)
 	}
 	else if (gmi.type == '2x2') {
@@ -1305,7 +1305,7 @@ gmeta.check.study.names <- function(gmi, study.names) {
 
 
 
-# A unifying framework for meta-analysis 
+# A unifying framework for meta-analysis
 
 ## meta-analysis - combine p-value vector
 # *****************************************************************************
@@ -1324,7 +1324,7 @@ Cpvaluecombine <- function(RpVec, Rmethod) {
 	stopifnot(Rmethod %in% c('fisher', 'normal', 'stouffer', 'min', 'tippett', 'max', 'sum'));
 	.Call('pvaluecombine', # pvaluecombine() in C
 	RpVec,   # generatlized meta-analysis input: vector of p-values.
-	Rmethod, # generatlized meta-analysis method: 'fisher', 'normal', 'stouffer', 'min', 'tippett', 'max', 'sum'. 
+	Rmethod, # generatlized meta-analysis method: 'fisher', 'normal', 'stouffer', 'min', 'tippett', 'max', 'sum'.
 	package  = 'pvaluecombine')
 }
 ### combine: p-value vector
@@ -1332,7 +1332,7 @@ Cpvaluecombine <- function(RpVec, Rmethod) {
 R.pvalue.combine <- function(gmi, method) {
 	k = length(gmi)
 	if (method == 'fisher') {
-		cmbd.pvalue <- 1 - pchisq(-2*sum(log(gmi)), df=2*k)  
+		cmbd.pvalue <- 1 - pchisq(-2*sum(log(gmi)), df=2*k)
 	}
 	else if (method == 'normal') {
 		cmbd.pvalue <- pnorm(sum(qnorm(gmi))/sqrt(k))
@@ -1378,7 +1378,7 @@ psumunif <- function(q, n) {
 		psunif = psunif + (-1)^i * choose(n,i) * max(0, q - i)^n
 	}
 	psunif = psunif / factorial(n)
-	psunif  
+	psunif
 }
 ## [p-value combination tools - done]
 ## meta-analysis - combine p-value vector [done]
@@ -1409,7 +1409,7 @@ gmeta.cdpvt.dproc <- function(gmi, gmi.type, method, gmo.xgrid, tau2) {
 	}
 	return(gmeta.data)
 }
-#####
+##### data processing cd
 gmeta.cdpvt.dproc.cd <- function(gmi, method, gmo.xgrid, tau2) {
 	# unified data structure
 	# x.grids and cdf values
@@ -1420,14 +1420,14 @@ gmeta.cdpvt.dproc.cd <- function(gmi, method, gmo.xgrid, tau2) {
 	gmi.theta <- numeric(nn1)
 	gmi.sigma <- numeric(nn1)
 	# unifying data structure:
-	# x.grids, cdf-values-on-xgrids, mean, stddev for each study 
+	# x.grids, cdf-values-on-xgrids, mean, stddev for each study
 	for ( i in seq(1:nn1) ) {
 		gmi.x[[i]]   <- gmi[[i]][,1]
 		gmi.cd[[i]]  <- gmi[[i]][,2]
 		gmi.theta[i] <- gmeta.cd.mean(gmi.x[[i]], gmi.cd[[i]])
 		gmi.sigma[i] <- gmeta.cd.stddev(gmi.x[[i]], gmi.cd[[i]])
 	}
-	
+
 	# calculate tau2
 	if ( is.element(method, c('fixed-mle',
 							  'fixed-robust1',
@@ -1459,7 +1459,7 @@ gmeta.cdpvt.dproc.cd <- function(gmi, method, gmo.xgrid, tau2) {
 	} else {
 		stop('method not recongize.')
 	}
-	
+
 	# unified x.grids
 	# xl <- min(unlist(gmi.x))
 	# xu <- max(unlist(gmi.x))
@@ -1468,22 +1468,22 @@ gmeta.cdpvt.dproc.cd <- function(gmi, method, gmo.xgrid, tau2) {
 	# calculate cdf-value on unified x.grids
 	gmi.unix.cd <- NULL
 	for ( i in seq(1,nn1) ) {
-		gmi.unix.cd <- rbind(gmi.unix.cd, 
+		gmi.unix.cd <- rbind(gmi.unix.cd,
 			approx(x=gmi.x[[i]], y=gmi.cd[[i]], xout=gmi.unix, rule=2)$y)
 	}
-	
+
 	# return
 	gmeta.data <- list( # x.grids
 						gmi.x     = gmi.unix, # [unified x.grids - gmo.xgrids]
 						# individual CDs
-						gmi.cd    = gmi.unix.cd, 
-						gmi.theta = gmi.theta, 
-						gmi.sigma = gmi.sigma, 
+						gmi.cd    = gmi.unix.cd,
+						gmi.theta = gmi.theta,
+						gmi.sigma = gmi.sigma,
 						gmi.tau2  = gmi.tau2   )
 	# return
 	return(gmeta.data)
 }
-#####
+##### data processing pivot
 gmeta.cdpvt.dproc.pivot <- function(gmi, method, gmo.xgrid, tau2) {
 	# unified data structure
 	# x.grids and cdf values
@@ -1493,7 +1493,7 @@ gmeta.cdpvt.dproc.pivot <- function(gmi, method, gmo.xgrid, tau2) {
 	nn1       <- dim(gmi)[1]
 	gmi.theta <- gmi[,1]
 	gmi.sigma <- gmi[,2]
-	
+
 	# calculate tau2
 	if ( is.element(method, c('fixed-mle',
 							  'fixed-robust1',
@@ -1528,7 +1528,7 @@ gmeta.cdpvt.dproc.pivot <- function(gmi, method, gmo.xgrid, tau2) {
 	} else {
 		stop('method not recongize.')
 	}
-	
+
 	# unified x.grids
 	# xl <- min(unlist(gmi.x))
 	# xu <- max(unlist(gmi.x))
@@ -1557,14 +1557,14 @@ gmeta.cdpvt.dproc.pivot <- function(gmi, method, gmo.xgrid, tau2) {
 	} else {
 		stop('method not recongize.')
 	}
-	
+
 	# return
 	gmeta.data <- list( # x.grids
 						gmi.x     = gmi.unix, # [unified x.grids - gmo.xgrids]
 						# individual CDs
-						gmi.cd    = gmi.unix.cd, 
-						gmi.theta = gmi.theta, 
-						gmi.sigma = gmi.sigma, 
+						gmi.cd    = gmi.unix.cd,
+						gmi.theta = gmi.theta,
+						gmi.sigma = gmi.sigma,
 						gmi.tau2  = gmi.tau2   )
 	# return
 	return(gmeta.data)
@@ -1580,13 +1580,13 @@ gmeta.cdpvt.combine <- function(gmeta.data, method, linkfunc, weight, gmo.xgrid,
 	} else {
 		stop('linkfunc not recongize.')
 	}
-	
+
 	# post-processing
 	cmbdf   <- F2f(gmeta.data$gmi.x, cmbdF)
 	cmbdmn  <- gmeta.cd.mean(gmeta.data$gmi.x, cmbdF)
 	cmbdmdn <- gmeta.cd.median(gmeta.data$gmi.x, cmbdF)
 	cmbdsdv <- gmeta.cd.stddev(gmeta.data$gmi.x, cmbdF)
-	
+
 	# post-processing on individual CDs
 	# number of study
 	K = dim(gmeta.data$gmi.cd)[1]
@@ -1599,7 +1599,7 @@ gmeta.cdpvt.combine <- function(gmeta.data, method, linkfunc, weight, gmo.xgrid,
 			gmeta.cd.mdncis(gmeta.data$gmi.x, gmeta.data$gmi.cd[i, ], alpha))
 	}
 	combined.ci <- gmeta.cd.mdncis(gmeta.data$gmi.x, cmbdF, alpha)[c(1,3)]
-	
+
 	# return
 	gmeta.cmbd <- list( # x.grids
 						x.grids            = gmeta.data$gmi.x,
@@ -1607,21 +1607,21 @@ gmeta.cdpvt.combine <- function(gmeta.data, method, linkfunc, weight, gmo.xgrid,
 						individual.cds     = gmeta.data$gmi.cd,
 						individual.means   = gmeta.data$gmi.theta,
 						individual.stddevs = gmeta.data$gmi.sigma,
-						individual.medians = indiv.ci[,2], 
+						individual.medians = indiv.ci[,2],
 						individual.cis     = indiv.ci[,c(1,3)],
 						# combined CD
-						combined.cd        = cmbdF, 
-						combined.density   = cmbdf, 
-						combined.mean      = cmbdmn, 
+						combined.cd        = cmbdF,
+						combined.density   = cmbdf,
+						combined.mean      = cmbdmn,
 						combined.sd        = cmbdsdv,
-						combined.median    = cmbdmdn, 
+						combined.median    = cmbdmdn,
 						combined.ci        = combined.ci,
 						# other information
-						method             = method, 
-						linkfunc           = linkfunc, 
+						method             = method,
+						linkfunc           = linkfunc,
 						weight             = weight,
 						tau2               = gmeta.data$gmi.tau2,
-						ci.level           = ci.level,             
+						ci.level           = ci.level,
 						verbose            = verbose              )
 	# return
 	return(gmeta.cmbd)
@@ -1634,7 +1634,7 @@ gmeta.cdpvt.combine.gaussian <- function(gmeta.data, method, weight, gmo.xgrid, 
 	gmi.tau2  <- gmeta.data$gmi.tau2
 	gmi.theta <- gmeta.data$gmi.theta
 	gmi.sigma <- gmeta.data$gmi.sigma
-	
+
 	# specify study-specific weight
 	if ( is.null(weight) ) {
 		if ( verbose ) {
@@ -1648,7 +1648,7 @@ gmeta.cdpvt.combine.gaussian <- function(gmeta.data, method, weight, gmo.xgrid, 
 			#cat('\nuser-specified study-specific weights.\n') #commentOut
 		}
 	}
-	
+
 	# meta via CD-framework
 	if (method == 'fixed-mle') {
 		#adptws <- 1 / gmi.sigma
@@ -1666,8 +1666,8 @@ gmeta.cdpvt.combine.gaussian <- function(gmeta.data, method, weight, gmo.xgrid, 
 		k <- length(weight)
 		#adptws <- 1 / gmi.sigma
 		#weight <- weight * adptws [no adptws in v2.0]
-		e.kernel <- function(u00, h) { 
-			1/h * dnorm(u00/h) 
+		e.kernel <- function(u00, h) {
+			1/h * dnorm(u00/h)
 		}
 		data.iqr <- qnorm(0.75, gmi.theta, gmi.sigma) - qnorm(0.25, gmi.theta, gmi.sigma)
 		cmbdm.all <- NULL
@@ -1698,7 +1698,7 @@ gmeta.cdpvt.combine.gaussian <- function(gmeta.data, method, weight, gmo.xgrid, 
 		}
 	}
 	else if (method == 'fixed-robust2') {
-		cmbdFr0 <- gmeta.cdpvt.combine.gaussian(gmeta.data, 
+		cmbdFr0 <- gmeta.cdpvt.combine.gaussian(gmeta.data,
 			method='fixed-robust2(sqrt12)', weight, gmo.xgrid, verbose)
 		# latex format
 		# $\hat{theta^{(c)}) = H(c)^{-1}(1/2)$
@@ -1740,8 +1740,8 @@ gmeta.cdpvt.combine.gaussian <- function(gmeta.data, method, weight, gmo.xgrid, 
 		k <- length(weight)
 		#adptws <- 1 / sqrt(gmi.sigma^2 + gmi.tau2)
 		#weight <- weight * adptws [no adptws in v2.0]
-		e.kernel <- function(u00, h) { 
-			1/h * dnorm(u00/h) 
+		e.kernel <- function(u00, h) {
+			1/h * dnorm(u00/h)
 		}
 		data.iqr <- qnorm(0.75, gmi.theta, gmi.sigma) - qnorm(0.25, gmi.theta, gmi.sigma)
 		cmbdm.all <- NULL
@@ -1772,7 +1772,7 @@ gmeta.cdpvt.combine.gaussian <- function(gmeta.data, method, weight, gmo.xgrid, 
 		}
 	}
 	else if (method == 'random-robust2') {
-		cmbdFr0 <- gmeta.cdpvt.combine.gaussian(gmeta.data, 
+		cmbdFr0 <- gmeta.cdpvt.combine.gaussian(gmeta.data,
 			method='random-robust2(sqrt12)', weight, gmo.xgrid, verbose)
 		# latex format
 		# $\hat{theta^{(c)}) = H(c)^{-1}(1/2)$
@@ -1807,7 +1807,7 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 	gmi.tau2  <- gmeta.data$gmi.tau2
 	gmi.theta <- gmeta.data$gmi.theta
 	gmi.sigma <- gmeta.data$gmi.sigma
-	
+
 	# specify study-specific weight
 	if ( is.null(weight) ) {
 		if ( is.element(method, c('fixed-mle',
@@ -1838,7 +1838,7 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 			#cat("\nwarning: use user-specified weight which is not recommend.\n") #commentOut
 		}
 	}
-	
+
 	# meta via CD-framework
 	# F0: double.exponential
 	# linkfunc: inverse-laplace-cdf
@@ -1855,7 +1855,7 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 	if (method == 'fixed-mle') {
 		#adptws <- 1 / gmi.sigma
 		#weight <- weight * adptws [no adptws in v2.0]
-		#p.cmbd.de <- convolution.sim(rde, weight) 
+		#p.cmbd.de <- convolution.sim(rde, weight)
 		p.cmbd.de <- .convolution.de(rde, weight, verbose) # [update in v2.0: .convolution.de()]
 		cmbd.q = apply(weight*qde(gmi.cd), 2, sum)
 		cmbdF <- p.cmbd.de(cmbd.q)
@@ -1872,8 +1872,8 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 		k <- length(weight)
 		#adptws <- 1 / gmi.sigma
 		#weight <- weight * adptws [no adptws in v2.0]
-		e.kernel <- function(u00, h) { 
-			1/h * dnorm(u00/h) 
+		e.kernel <- function(u00, h) {
+			1/h * dnorm(u00/h)
 		}
 		data.iqr <- qnorm(0.75, gmi.theta, gmi.sigma) - qnorm(0.25, gmi.theta, gmi.sigma)
 		cmbdm.all <- NULL
@@ -1906,7 +1906,7 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 		}
 	}
 	else if (method == 'fixed-robust2') {
-		cmbdFr0 <- gmeta.cdpvt.combine.de(gmeta.data, 
+		cmbdFr0 <- gmeta.cdpvt.combine.de(gmeta.data,
 			method='fixed-robust2(sqrt12)', weight, gmo.xgrid, verbose)
 		# latex format
 		# $\hat{theta^{(c)}) = H(c)^{-1}(1/2)$
@@ -1921,7 +1921,7 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 		cmbdF = pnorm(apply(weight*(gmi.cd-0.5), 2, sum)/sqrt(weight.ss))
 	}
 	else if (method == 'fixed-robust2(sqrt12)') {
-		#adptws <- 1 / gmi.sigma 
+		#adptws <- 1 / gmi.sigma
 		#weight <- weight * adptws [no adptws in v2.0]
 		weight.ss <- sum(weight^2)
 		cmbdF = pnorm(apply(sqrt(12)*weight*(gmi.cd-0.5), 2, sum)/sqrt(weight.ss))
@@ -1954,8 +1954,8 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 		k <- length(weight)
 		#adptws <- 1 / sqrt(gmi.sigma^2 + gmi.tau2)
 		#weight <- weight * adptws [no adptws in v2.0]
-		e.kernel <- function(u00, h) { 
-			1/h * dnorm(u00/h) 
+		e.kernel <- function(u00, h) {
+			1/h * dnorm(u00/h)
 		}
 		data.iqr <- qnorm(0.75, gmi.theta, gmi.sigma) - qnorm(0.25, gmi.theta, gmi.sigma)
 		cmbdm.all <- cmbdF.all <- NULL
@@ -1987,7 +1987,7 @@ gmeta.cdpvt.combine.de <- function(gmeta.data, method, weight, gmo.xgrid, verbos
 		}
 	}
 	else if (method == 'random-robust2') {
-		cmbdFr0 <- gmeta.cdpvt.combine.de(gmeta.data, 
+		cmbdFr0 <- gmeta.cdpvt.combine.de(gmeta.data,
 			method='random-robust2(sqrt12)', weight, gmo.xgrid, verbose)
 		# latex format
 		# $\hat{theta^{(c)}) = H(c)^{-1}(1/2)$
@@ -2050,7 +2050,7 @@ gmeta.exact.indiv <- function(data_matrix, gmo.xgrid, ci.level) {
 	# number of study
 	K = nrow(data_matrix)
 	# input  - individual study mean and standard deviation
-	gmeta.theta = log( (data_matrix[,1]*(data_matrix[,4]-data_matrix[,2])) / (data_matrix[,2]*(data_matrix[,3]-data_matrix[,1])) ) 
+	gmeta.theta = log( (data_matrix[,1]*(data_matrix[,4]-data_matrix[,2])) / (data_matrix[,2]*(data_matrix[,3]-data_matrix[,1])) )
 	gmeta.sigma = sqrt(1/data_matrix[,1] + 1/data_matrix[,2] + 1/(data_matrix[,3]-data_matrix[,1]) + 1/(data_matrix[,4]-data_matrix[,2]))
 	index = is.finite(gmeta.theta) & is.finite(gmeta.sigma)
 	# output - individual study CDs
@@ -2062,7 +2062,7 @@ gmeta.exact.indiv <- function(data_matrix, gmo.xgrid, ci.level) {
 	# construct individual CDs
 	alpha <- 1 - ci.level
 	pfunc <- function(theta) {
-		return(1 - pFNCHypergeo.wrap(data_matrix[i,1],data_matrix[i,3],data_matrix[i,4],data_matrix[i,5], theta) + 
+		return(1 - pFNCHypergeo.wrap(data_matrix[i,1],data_matrix[i,3],data_matrix[i,4],data_matrix[i,5], theta) +
 		           dFNCHypergeo(data_matrix[i,1],data_matrix[i,3],data_matrix[i,4],data_matrix[i,5], theta) / 2)
 	}
 	for (i in 1:K) {
@@ -2118,7 +2118,7 @@ gmeta.exact.combine <- function(gmeta.data, weight, gmo.xgrid, ci.level, mc.iter
 	combined.cd <- weight %*% qnorm( indiv.cds )
 	combined.cd <- combined.cd / sqrt( sum( weight^2 ) )
 	combined.cd <- as.vector( pnorm(combined.cd) ) # combined CD with values on limited points
-	# combined CD function	
+	# combined CD function
 	combinedCDF <- function(theta) {  # combined CD function, used when searching for quantiles
 		ff = sapply(1:K, FUN = function(j) { midp.oddsratio(data_matrix[j,1], data_matrix[j,3], data_matrix[j,4], data_matrix[j,5], theta) })
 		ff = ifelse(ff<1-0.1^12, ff, 1-0.1^12)
@@ -2159,7 +2159,7 @@ gmeta.exact.combine <- function(gmeta.data, weight, gmo.xgrid, ci.level, mc.iter
 		# calculate coverage probability error
 		coverage.prbblty.error     <- 'Not Requested'
 		coverage.prbblty.error.adj <- 'Not Requested'
-		if ( report.error ) {	
+		if ( report.error ) {
 			ee = test.size.error(alpha/2, data_matrix[,3], xstmts$pt.hat, data_matrix[,4], xstmts$pc.hat, weight, result.1minusS=TRUE, mc.iteration)
 			coverage.prbblty.error     = ee$Test.Size.Error.1minusS - ee$Test.Size.Error
 			coverage.prbblty.error.adj = ee$Test.Size.Error.Adjusted.1minusS - ee$Test.Size.Error.Adjusted
@@ -2183,7 +2183,7 @@ gmeta.exact.combine <- function(gmeta.data, weight, gmo.xgrid, ci.level, mc.iter
 						combined.ci        = c(lower.ci, upper.ci),
 						# p-value for null hypothesis: odd-ratio==1
 						pvalue = o.pvalue,
-						# combined CD function - adjusted 
+						# combined CD function - adjusted
 						combined.cd.adjusted       = combined.cd.adj,
 						combined.density.adjusted  = F2f(gmo.xgrid, combined.cd.adj),
 						combined.mean.adjusted     = mn.xstmt.adj,
@@ -2214,10 +2214,10 @@ test.size.error <- function(s, n.vec, p1.vec, m.vec, p0.vec, weight.vec, result.
 	# number of study
 	K = length(n.vec)
 	psi = (p1.vec[1]/(1-p1.vec[1])) / (p0.vec[1]/(1-p0.vec[1]))
-	# generate p.i(\psi), i=1,2,...K. 
+	# generate p.i(\psi), i=1,2,...K.
 	mid.p.sample     = matrix(NA, nrow=mc.iteration, ncol=K) # each column is for an i
 	mid.p.sample.adj = matrix(NA, nrow=mc.iteration, ncol=K) # each column is for an i
-	for(i in 1:K){											
+	for(i in 1:K){
 	    x = rbinom(mc.iteration, n.vec[i], p1.vec[i])
 		y = rbinom(mc.iteration,m.vec[i],p0.vec[i])
 		mid.p.sample[,i]     = midp.oddsratio(x, n.vec[i], m.vec[i], x + y, or=psi)
@@ -2229,7 +2229,7 @@ test.size.error <- function(s, n.vec, p1.vec, m.vec, p0.vec, weight.vec, result.
 	qnorm.mid.p.sample     = qnorm(mid.p.sample)
 	qnorm.mid.p.sample.adj = qnorm(mid.p.sample.adj)
 	qnorm.uniform.sample   = qnorm(uniform.sample)
-	# 
+	#
 	bb1 = sapply(1:K, function(i) { ww<-weight.vec/weight.vec[i]; ww[1:K<=i]<-0; ww })
 	bb2 = sapply(1:K, function(i) { ww<-weight.vec/weight.vec[i]; ww[1:K>=i]<-0; ww })
 	#
@@ -2242,7 +2242,7 @@ test.size.error <- function(s, n.vec, p1.vec, m.vec, p0.vec, weight.vec, result.
 	aa.adj = t(xoffset-t(main.adj))
 	#
 	pnorm.aa     = pnorm(aa)
-	pnorm.aa.adj = pnorm(aa.adj)		
+	pnorm.aa.adj = pnorm(aa.adj)
 	#
 	dd     = sapply(1:K, FUN = function(i) { findInterval(pnorm.aa[,i], sort(mid.p.sample[,i])) / mc.iteration - pnorm.aa[,i] })
 	dd.adj = sapply(1:K, FUN = function(i) { findInterval(pnorm.aa.adj[,i], sort(mid.p.sample.adj[,i])) / mc.iteration - pnorm.aa.adj[,i] })
@@ -2259,7 +2259,7 @@ test.size.error <- function(s, n.vec, p1.vec, m.vec, p0.vec, weight.vec, result.
 		aa.adj  = t(xoffset-t(main.adj))
 		#
 		pnorm.aa     = pnorm(aa)
-		pnorm.aa.adj = pnorm(aa.adj)		
+		pnorm.aa.adj = pnorm(aa.adj)
 		#
 		dd     = sapply(1:K, FUN = function(i) { findInterval(pnorm.aa[,i], sort(mid.p.sample[,i])) / mc.iteration - pnorm.aa[,i] })
 		dd.adj = sapply(1:K, FUN = function(i) { findInterval(pnorm.aa.adj[,i], sort(mid.p.sample.adj[,i])) / mc.iteration - pnorm.aa.adj[,i] })
@@ -2268,7 +2268,7 @@ test.size.error <- function(s, n.vec, p1.vec, m.vec, p0.vec, weight.vec, result.
 		test.size.error.adj.1minusS = sum(colMeans(dd.adj))
 	}
 	# return
-	return( list( Test.Size.Error                  = test.size.error, 
+	return( list( Test.Size.Error                  = test.size.error,
 				  Test.Size.Error.Adjusted         = test.size.error.adj,
 	              Test.Size.Error.1minusS          = test.size.error.1minusS,
 				  Test.Size.Error.Adjusted.1minusS = test.size.error.adj.1minusS ) )
@@ -2278,23 +2278,23 @@ test.size.error <- function(s, n.vec, p1.vec, m.vec, p0.vec, weight.vec, result.
 gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteration, eta, verbose, report.error) {
 	# n=length(gmo.xgrid) - number of gridding delta [output]
 	# mc.iteration - number of simulation for null distribution
-	
+
 	#if (!is.null(gmo.xgrid)) { warning('input gmo.xgrid will not be utilized, output range and griddings will be automatically set.') }#
-	
+
 	# expand data_matrix and set gmo.xgrid
 	#data.mi = data_matrix[,1:4]
 	data.mi = data_matrix[,c(2,1,4,3)] # [update in v2.0, target p1-p2, following program is on p2-p1, so change case-ctrl order]
-	
+
 	# number of trial
 	nstudy = dim(data.mi)[1]
-	
+
 	# delta - individual studies
 	n1 = data.mi[,3]
 	n2 = data.mi[,4]
     p1 = data.mi[,1]/data.mi[,3]
 	p2 = data.mi[,2]/data.mi[,4]
     deltap = p2 - p1
-	
+
 	# var weight - non-zero-event studies
 	id = (1:nstudy)[p1*p2==0]
     n1[id] = data.mi[id,3]+1
@@ -2303,17 +2303,17 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
 	p2[id] = (data.mi[id,2]+0.5)/(data.mi[id,4]+1)
     varp = p1*(1-p1)/n1+p2*(1-p2)/n2
 	wght = (n1*n2/(n1+n2))/sum(n1*n2/(n1+n2))
-	
+
 	# Mantel-Haenszel's method
 	mu.MH = sum(deltap*wght)
 	sd.MH = sqrt(sum(wght^2*varp))
     ci.MH = c(mu.MH-1.96*sd.MH, mu.MH+1.96*sd.MH)
     p.MH  = 1 - pchisq(mu.MH^2/sd.MH^2,1)
-	
+
 	# gridding detla
     d0 = max(abs(ci.MH))
 	delta.grd = sort(c(0, seq(from=max(-1,-d0*15), to=min(1,d0*15), length=length(gmo.xgrid)-1)))
-	
+
 	# exact p-values [for observed data] given true delta[risk difference]
     diff.exact = function(x1, x2, n1, n2, delta.grd, n.grd=15, midp=TRUE) {
         # fit
@@ -2324,7 +2324,7 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
 		# grd
         p1.grd = seq(l, u, length=n.grd)
 		pnull1.tot = matrix(0, n1 + 1, n.grd)
-        for( b in 1:n.grd ) { 
+        for( b in 1:n.grd ) {
 			p1 = p1.grd[b]
 			pnull1.tot[,b] = dbinom(c(0:n1), n1, p1)
 		}
@@ -2349,7 +2349,7 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
             pvalue1 = rep(0, n.grd)
 			pvalue2 = rep(0, n.grd)
 			error = 1e-6
-            for ( b in 1:n.grd ) { 
+            for ( b in 1:n.grd ) {
 				p1 = p1.grd[b]
 				p2 = p1 + theta
                 if ( p2 >= 0 && p2 <= 1) {
@@ -2376,7 +2376,7 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
         }
         return(list(pv1=pv1, pv2=pv2))
     }
-	
+
 	# pv1.pool&pv2.pool are the CDs of individual studies.
     pv1.pool = numeric(0)
 	pv2.pool = numeric(0)
@@ -2403,16 +2403,16 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
         }
     }
 	# pv1.pool&pv2.pool are the CDs of individual studies.
-	
+
 	# weight for individual study
 	if ( is.null(weight) ) {
 		weight = data.mi[,3] + data.mi[,4]
 	} else {
 		if ( verbose ) { # use report.error as a surrogate as verbose [use parameter verbose - update v2.0]
-			cat('\nwarning: use user specified weights, instead of the default weight determined by study size.\n') 
+			cat('\nwarning: use user specified weights, instead of the default weight determined by study size.\n')
 		}
 	}
-	
+
 	# combine individual CDs
 	if ( is.numeric(eta) ) {
 		# eta in [0,1]
@@ -2443,12 +2443,12 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
 		u = runif(nstudy); T[b] = gc(u)
 	}
 	Gc = ecdf(T)
-	
+
 	# combined CDs
 	Hc1 = Gc( apply(pv1.pool, 2, gc) ) # HC1 non-decreasing
 	Hc2 = Gc( apply(pv2.pool, 2, gc) ) # HC2 non-increasing
 	combined.ci = c(max(delta.grd[Hc1<0.025]), min(delta.grd[Hc2<0.025]))
-	
+
 	# post processing
 	integrated2CDs <- function(cd1, cd2, delta.grd) {
 		mdnpt = delta.grd[ round(median(which( abs(cd1-cd2) == min(abs(cd1-cd2)) ))) ]
@@ -2460,7 +2460,7 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
 		intgrtdcd[intgrtdcd>=1] = 1 - 1e-6;
 		return(intgrtdcd)
 	}
-	
+
 	# individual CDs
 	indiv.cds <- NULL
 	for (i in 1:nstudy) {
@@ -2474,7 +2474,7 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
 		indiv.stddevs[i] = gmeta.cd.stddev(delta.grd, indiv.cds[i,])
 		indiv.ci         = rbind(indiv.ci, gmeta.cd.mdncis(delta.grd, indiv.cds[i,], 1-ci.level))
 	}
-	
+
 	# combined CD
 	cmbdF   = integrated2CDs(Hc1, Hc2, delta.grd)
 	cmbdf   = F2f(delta.grd, cmbdF)
@@ -2495,22 +2495,22 @@ gmeta.exact.LT <- function(data_matrix, weight, gmo.xgrid, ci.level, mc.iteratio
 					    # individual CDs
 					    individual.cds     = indiv.cds,
 						individual.cis     = indiv.ci[,c(1,3)],
-						individual.medians = indiv.ci[,2], 
+						individual.medians = indiv.ci[,2],
 					    individual.means   = indiv.means,
 					    individual.stddevs = indiv.stddevs,
 						# combined CD
 						combined.cd        = cmbdF,
 						combined.density   = cmbdf,
-						combined.mean      = cmbdmn, 
+						combined.mean      = cmbdmn,
 						combined.median    = cmbdmdn,
-						combined.sd        = cmbdsdv, 
-						combined.ci        = combined.ci,		
+						combined.sd        = cmbdsdv,
+						combined.ci        = combined.ci,
 						# other information
 						method       = 'exact2',
 						linkfunc     = 'log(u/(1-u))',
 						weight       = weight,
 						tau2         = NULL,
-						ci.level     = ci.level,						
+						ci.level     = ci.level,
 						mc.iteration = mc.iteration,
 						eta          = eta,
 						verbose      = verbose,
@@ -2528,9 +2528,9 @@ gmeta.MH <- function(data_matrix, weight, gmo.xgrid, ci.level) {
 	# number of study
 	K = nrow(data_matrix)
 	alpha = 1 - ci.level
-	
+
 	Ni = dm[,3]+dm[,4]
-	
+
 	R = dm[,1]*(dm[,4]-dm[,2])/Ni
 	S = dm[,2]*(dm[,3]-dm[,1])/Ni
 	P = (dm[,1]+dm[,4]-dm[,2])/Ni
@@ -2538,7 +2538,7 @@ gmeta.MH <- function(data_matrix, weight, gmo.xgrid, ci.level) {
 
 	gmeta.theta = R/S
 	gmeta.sigma = sqrt(1/dm[,1]+1/(dm[,3]-dm[,1])+1/dm[,2]+1/(dm[,4]-dm[,2])) * gmeta.theta
-	
+
 	# this is the same as var_U and var_US in Robins et.al(1986)'s paper when K=1.
 	index = is.finite(gmeta.theta) & is.finite(gmeta.sigma)
 	# individual CDs
@@ -2559,11 +2559,11 @@ gmeta.MH <- function(data_matrix, weight, gmo.xgrid, ci.level) {
 	weight = gmeta.sigma*S / (cmbd.stddev*sum(S))
 	# return
 	gmeta.cmbd <- list( # input
-						data_matrix = data_matrix, 
+						data_matrix = data_matrix,
 						# individual CDs
 						individual.cds     = indiv.cds,
 						individual.cis     = indiv.cis,
-						individual.medians = gmeta.theta,						
+						individual.medians = gmeta.theta,
 						individual.means   = gmeta.theta,
 						individual.stddevs = gmeta.sigma,
 						# combined CD
@@ -2593,12 +2593,12 @@ gmeta.peto <- function(data_matrix, weight, gmo.xgrid, ci.level) {
 	# number of study
 	K = nrow(data_matrix)
 	alpha = 1 - ci.level
-	
+
 	Ni = dm[,3]+dm[,4]
-	
+
 	gmeta.theta = (dm[,1]-dm[,5]*dm[,3]/Ni)*Ni^2*(Ni-1) / (dm[,5]*dm[,3]*dm[,4]*(Ni-dm[,5]))
 	gmeta.sigma = 1 / sqrt(dm[,5]*dm[,3]*dm[,4]*(Ni-dm[,5])/Ni^2/(Ni-1))
-	
+
 	index = is.finite(gmeta.theta) & is.finite(gmeta.sigma)
 	# individual CDs
 	indiv.cds = matrix(NA,K,length(gmo.xgrid))
@@ -2616,15 +2616,15 @@ gmeta.peto <- function(data_matrix, weight, gmo.xgrid, ci.level) {
 	# weight - Peto's method default
 	if (!is.null(weight)) { warning('user specific weight will be surrogated by Peto-s method default weight.') }
 	weight = cmbd.stddev / gmeta.sigma
-	# return 
-	
+	# return
+
 	# return
 	gmeta.cmbd <- list( # input
-						data_matrix = data_matrix, 
+						data_matrix = data_matrix,
 						# individual CDs
 						individual.cds     = indiv.cds,
 						individual.cis     = indiv.cis,
-						individual.medians = gmeta.theta,						
+						individual.medians = gmeta.theta,
 						individual.means   = gmeta.theta,
 						individual.stddevs = gmeta.sigma,
 						# combined CD
@@ -2717,14 +2717,14 @@ print.gmeta.m <- function(x, ...) {
 	# Details
 	cat('\nCombined Confidence Distribution:\n')
 	# construct combined CD
-	cmbd.cd <- data.frame( x = x$x.grids, 
+	cmbd.cd <- data.frame( x = x$x.grids,
 		density = x$combined.density, probability = x$combined.cd )
 	# set lower/upper bound
 	xl  <- min(x$x.grids)
 	xu  <- max(x$x.grids)
 	# count
 	n.grids <- sum(cmbd.cd$x >= xl & cmbd.cd$x <= xu)
-	# print head/tail 
+	# print head/tail
 	if (n.grids <= 10) {
 		print(cmbd.cd) # simple print all x-cd-points
 	} else {
@@ -2746,14 +2746,14 @@ summary.gmeta.m <- function(object, ...) {
 	# set Call
 	object.sry$call <- object$call
 	# set combined CD
-	object.sry$cmbd <- data.frame(  mean   = object$combined.mean, 
+	object.sry$cmbd <- data.frame(  mean   = object$combined.mean,
 	                            median  = object$combined.median,
 							    stddev  = object$combined.sd,
 							   ci.lower = object$combined.ci[1],
 							   ci.upper = object$combined.ci[2])
 	row.names(object.sry$cmbd) <- 'Combined CD'
 	# set individual CDs
-	object.sry$idiv <- data.frame(  mean   = object$individual.means, 
+	object.sry$idiv <- data.frame(  mean   = object$individual.means,
 	                            median  = object$individual.medians,
 							    stddev  = object$individual.stddevs,
 							   ci.lower = object$individual.cis[,1],
@@ -2804,14 +2804,14 @@ print.gmeta.e <- function(x, ...) {
 	# Details
 	cat('\nCombined Confidence Distribution:\n')
 	# construct combined CD
-	cmbd.cd <- data.frame( x = x$x.grids, 
+	cmbd.cd <- data.frame( x = x$x.grids,
 		density = x$combined.density, probability = x$combined.cd )
 	# set lower/upper bound
 	xl  <- min(x$x.grids)
 	xu  <- max(x$x.grids)
 	# count
 	n.grids <- sum(cmbd.cd$x >= xl & cmbd.cd$x <= xu)
-	# print head/tail 
+	# print head/tail
 	if (n.grids <= 10) {
 		print(cmbd.cd) # simple print all x-cd-points
 	} else {
@@ -2833,18 +2833,18 @@ summary.gmeta.e <- function(object, ...) {
 	# set Call
 	object.sry$call <- object$call
 	# set combined CD
-	object.sry$cmbd <- data.frame(  mean   = object$combined.mean, 
+	object.sry$cmbd <- data.frame(  mean   = object$combined.mean,
 	                            median  = object$combined.median,
 							    stddev  = object$combined.sd,
 							   ci.lower = object$combined.ci[1],
 							   ci.upper = object$combined.ci[2])
 	row.names(object.sry$cmbd) <- 'Combined CD'
 	# set individual CDs
-	object.sry$idiv <- data.frame(  mean   = object$individual.means, 
+	object.sry$idiv <- data.frame(  mean   = object$individual.means,
 	                            median  = object$individual.medians,
 							    stddev  = object$individual.stddevs,
 							   ci.lower = object$individual.cis[,1],
-							   ci.upper = object$individual.cis[,2])							   
+							   ci.upper = object$individual.cis[,2])
 	# set individual study names
 	row.names(object.sry$idiv) <- object$study.names
 	# set ci.level
