@@ -1,0 +1,20 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- LOG.md is generated from LOG.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "fig/LOG-"
+)
+```
+
+## Update on v2.3-0
+
+- Add new function np.gmeta().
+
