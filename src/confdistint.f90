@@ -324,8 +324,9 @@ subroutine CONFDISTINT(K,Thetahat,se,n,resample,B,len,m,band_pwr,shrink,smoothli
 !------------------
 subroutine shell_sort(a,ns,iperm)
   implicit none
+  integer ns
   double precision :: a(ns) ! input
-  integer is,js, ns      ! do loop
+  integer is,js      ! do loop
   integer tempi      ! for exchange
   double precision temps
   integer ks         ! k 
